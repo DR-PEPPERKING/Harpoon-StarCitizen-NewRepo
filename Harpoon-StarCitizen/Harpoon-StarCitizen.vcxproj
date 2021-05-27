@@ -162,6 +162,7 @@
     <ClInclude Include="CryEngineSDK\BaseIncludes.h" />
     <ClInclude Include="CryEngineSDK\CryEntitySystem\CEntity.h" />
     <ClInclude Include="CryEngineSDK\CryEntitySystem\IEntity.h" />
+    <ClInclude Include="CryEngineSDK\CryNetwork\CryNetwork.h" />
     <ClInclude Include="CryEngineSDK\CXConsole\IConsole.h" />
     <ClInclude Include="CryEngineSDK\CXConsole\XConsole.h" />
     <ClInclude Include="framework.h" />

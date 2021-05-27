@@ -31,6 +31,27 @@ bool WriteInfiniteAmmo()
 	return true;
 }
 
+bool WriteNoCarryWeight()
+{
+	printf("Carry Weight...");
+	void* pAmmoUpdate = 0;
+	pAmmoUpdate = (void*)g_pMemory->m_pCarryWeightUpdate;
+	if (!pAmmoUpdate)
+	{
+		printf("FAILED! No Signature Found\n");
+		return false;
+	}
+
+	DWORD protect = 0;
+	VirtualProtect((void*)pAmmoUpdate, 9, PAGE_EXECUTE_READWRITE, &protect); /* cause jle to not set*/
+	for (int i = 0; i < 9; i++)
+	{
+		*((BYTE*)pAmmoUpdate + i) = 0x90;
+	}
+	VirtualProtect((void*)pAmmoUpdate, 9, protect, &protect); /* cause jle to not set*/
+	printf("Ok\n");
+	return true;
+}
 #if 0
 class CXConsole;
 char __fastcall hk_CXConsoleProcessInput(CXConsole* _this, )
@@ -89,7 +110,7 @@ LPVOID oCXConsoleCheckCvarWhiteListStatus = NULL;
 //E8 ? ? ? ? 0F B6 F0 84 C0 75 72
 char __fastcall hk_CXConsole_CheckCvarWhiteListStatus(__int64* _this, __int64 MaybeIsReleaseFlags, int nCvarFlags, char* szFileName)
 {
-	printf("hk_CXConsole_CheckCvarWhiteListStatus\n");
+	//printf("hk_CXConsole_CheckCvarWhiteListStatus\n");
 	return 1;
 }
 
@@ -106,16 +127,17 @@ void Initalize(HMODULE hModule)
 	printf("Initializing.\n");
 	printf("Running Byte Patches.\n");
 	WriteInfiniteAmmo();
+	WriteNoCarryWeight();
 	printf("Unlocking Console Vars...");
 
 
 	
 	char* pIsDebugCheck = (char*)MemoryTools::FindPattern("StarCitizen.exe", "48 85 C0 74 10 48 8B D7 48 8B C8 E8 ? ? ? ? 48 8B D8 EB 02 33 DB 48 8B D7");
 	DWORD protect = 0;
-	VirtualProtect((void*)pIsDebugCheck, 5, PAGE_EXECUTE_READWRITE, &protect); /* cause jle to not set*/
+	VirtualProtect((void*)pIsDebugCheck, 5, PAGE_EXECUTE_READWRITE, &protect); 
 	for (int i = 0; i < 5; i++)
 		*(BYTE*)(pIsDebugCheck + i) = 0x90;
-	VirtualProtect((void*)pIsDebugCheck, 5, protect, &protect); /* cause jle to not set*/
+	VirtualProtect((void*)pIsDebugCheck, 5, protect, &protect); 
 
 	char* ConsoleVar = _relativeToAbsolute<char*>((uintptr_t)((char*)MemoryTools::FindPattern("StarCitizen.exe", "48 8B 0D ? ? ? ? 80 B9 9B ? ? ? ? 0F 84 ? ? ? ? 4C 8B 91 ? ? ? ? 4D 85 D2 74 33 49 8B 02") + int(3)));
 	*(BYTE*)(ConsoleVar + 923) = 0xFF;
@@ -131,10 +153,10 @@ void Initalize(HMODULE hModule)
 	
 	pIsDebugCheck = (char*)MemoryTools::FindPattern("StarCitizen.exe", "40 38 B8 ? ? ? ? 75 2F");
 	protect = 0;
-	VirtualProtect((void*)pIsDebugCheck, 9, PAGE_EXECUTE_READWRITE, &protect); /* cause jle to not set*/
+	VirtualProtect((void*)pIsDebugCheck, 9, PAGE_EXECUTE_READWRITE, &protect); 
 	for (int i = 0; i < 9; i++)
 		*(BYTE*)(pIsDebugCheck + i) = 0x90;
-	VirtualProtect((void*)pIsDebugCheck, 9, protect, &protect); /* cause jle to not set*/
+	VirtualProtect((void*)pIsDebugCheck, 9, protect, &protect); 
 
 
 	printf("Ok\n");
@@ -158,6 +180,7 @@ void Initalize(HMODULE hModule)
 	MH_CreateHook((LPVOID)g_pMemory->m_pCheckCvarWhileList, hk_CXConsole_CheckCvarWhiteListStatus, &oCXConsoleCheckCvarWhiteListStatus);
 
 	MH_EnableHook(MH_ALL_HOOKS);
+	printf("Ok\n");
 }
 
 
@@ -174,6 +197,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		freopen_s(&fDummy, "CONOUT$", "w", stdout);
 		freopen_s(&fDummy, "CONOUT$", "w", stderr);
 		freopen_s(&fDummy, "CONIN$", "r", stdin);
+		g_pMemory = new GameMemory();
 		Initalize(hModule);
 		printf("Harpoon StarCitizen Loaded!\n");
     case DLL_THREAD_ATTACH:

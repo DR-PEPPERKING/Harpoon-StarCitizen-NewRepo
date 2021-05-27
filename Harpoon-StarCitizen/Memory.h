@@ -35,8 +35,9 @@ public:
 	std::uintptr_t m_pCXConsoleExecuteCommand = 0;
 	std::uintptr_t m_pLoadAndInitCryModule = 0;
 	std::uintptr_t m_pCheckCvarWhileList = 0;
+	std::uintptr_t m_pCarryWeightUpdate = 0;
 private:
 };
 
-inline GameMemory g_GameMemory;
-inline GameMemory* g_pMemory = &g_GameMemory;
+
+inline GameMemory* g_pMemory = NULL;

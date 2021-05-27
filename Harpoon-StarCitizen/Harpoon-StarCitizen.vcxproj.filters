@@ -28,6 +28,9 @@
     <Filter Include="MinHook\hde">
       <UniqueIdentifier>{e2441fa9-d39c-4ceb-a581-b9e7ade938f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CryEngineSDK\CryNetwork.h">
+      <UniqueIdentifier>{58f2ef71-9b5a-4ba8-a63a-d23662f19cbf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -77,6 +80,9 @@
     </ClInclude>
     <ClInclude Include="MinHook\hde\table64.h">
       <Filter>MinHook\hde</Filter>
+    </ClInclude>
+    <ClInclude Include="CryEngineSDK\CryNetwork\CryNetwork.h">
+      <Filter>CryEngineSDK\CryNetwork.h</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
