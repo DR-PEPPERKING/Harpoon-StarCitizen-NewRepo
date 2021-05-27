@@ -17,7 +17,7 @@ bool WriteInfiniteAmmo()
 	}
 
 	DWORD protect = 0;
-	VirtualProtect((void*)pAmmoUpdate, 11, PAGE_EXECUTE_READWRITE, &protect); /* cause jle to not set*/
+	VirtualProtect((void*)pAmmoUpdate, 11, PAGE_EXECUTE_READWRITE, &protect); 
 	for (int i = 0; i < 11; i++)
 	{
 		*((BYTE*)pAmmoUpdate + i) = 0x90;
@@ -26,7 +26,7 @@ bool WriteInfiniteAmmo()
 	*((BYTE*)pAmmoUpdate + 1) = 0x86;
 	*((std::uint32_t*)((char*)pAmmoUpdate + 2)) = 0x000003B8;
 	*((std::uint32_t*)((char*)pAmmoUpdate + 6)) = 0x000000FF;
-	VirtualProtect((void*)pAmmoUpdate, 11, protect, &protect); /* cause jle to not set*/
+	VirtualProtect((void*)pAmmoUpdate, 11, protect, &protect); 
 	printf("Ok\n");
 	return true;
 }
@@ -43,12 +43,12 @@ bool WriteNoCarryWeight()
 	}
 
 	DWORD protect = 0;
-	VirtualProtect((void*)pAmmoUpdate, 9, PAGE_EXECUTE_READWRITE, &protect); /* cause jle to not set*/
+	VirtualProtect((void*)pAmmoUpdate, 9, PAGE_EXECUTE_READWRITE, &protect);
 	for (int i = 0; i < 9; i++)
 	{
 		*((BYTE*)pAmmoUpdate + i) = 0x90;
 	}
-	VirtualProtect((void*)pAmmoUpdate, 9, protect, &protect); /* cause jle to not set*/
+	VirtualProtect((void*)pAmmoUpdate, 9, protect, &protect); 
 	printf("Ok\n");
 	return true;
 }
