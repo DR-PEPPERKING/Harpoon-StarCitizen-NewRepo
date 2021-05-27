@@ -1,0 +1,12 @@
+{
+    "UQS_uber_shared.cpp": {
+        "Root": [
+            "SharedIncludes.h"
+        ],
+        "shared": [
+            "shared/UqsString.h",
+            "shared/VariantDict.h",
+            "shared/FactoryBase.h"
+        ]
+    }
+}

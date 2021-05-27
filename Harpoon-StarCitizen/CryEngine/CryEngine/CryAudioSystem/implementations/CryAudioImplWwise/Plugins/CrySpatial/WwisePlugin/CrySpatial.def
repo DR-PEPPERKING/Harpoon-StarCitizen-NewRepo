@@ -1,0 +1,4 @@
+LIBRARY "CrySpatialWwise"
+
+EXPORTS
+  AkCreatePlugin

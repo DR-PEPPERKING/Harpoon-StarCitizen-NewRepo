@@ -1,0 +1,13 @@
+{
+    "NoUberFile": {
+        "Root": [
+            "ControlInfo.h",
+            "FileImportInfo.h",
+            "IConnection.h",
+            "IImpl.h",
+            "IItem.h",
+            "ModelUtils.h",
+            "SharedData.h"
+        ]
+    }
+}

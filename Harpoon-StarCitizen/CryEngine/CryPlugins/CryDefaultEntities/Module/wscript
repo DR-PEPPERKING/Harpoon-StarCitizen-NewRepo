@@ -1,0 +1,20 @@
+# Copyright 2001-2019 Crytek GmbH / Crytek Group. All rights reserved.
+
+def build(bld) :
+
+	bld.CryEngineModule(
+	  target = 'CryDefaultEntities',
+	  vs_filter = 'CryPlugins',
+	  file_list = 'plugin.waf_files',
+
+	  pch = 'StdAfx.cpp',
+	  
+	  includes    = [ '.',  Path('Code/CryEngine/CryAction') ],
+	  win_lib     = [ 'Shell32', 'Ole32', 'Gdi32'],
+
+	  module_provides = dict(
+			includes = [ Path('Code/CryPlugins'),
+				Path('Code/CryPlugins/CryDefaultEntities/Module')]
+			
+		),
+	  )

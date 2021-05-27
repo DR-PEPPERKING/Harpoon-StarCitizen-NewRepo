@@ -1,0 +1,32 @@
+# Copyright 2001-2019 Crytek GmbH / Crytek Group. All rights reserved.
+from waflib import Logs
+
+def build(bld):
+	# Oculus can only be built using VS 2015.
+	# This is a limitation of the Oculus code.
+	build_oculus = bld.env and bld.env['MSVC_VERSION'] and (bld.ToVersionNumbers(bld.env['MSVC_VERSION']) >= bld.ToVersionNumbers('14.0'))
+	parse_oculus = ('build' not in bld.cmd)
+
+	if build_oculus or parse_oculus:
+		bld.CryEngineStaticModule( 
+			target    = 'oculus', 
+			vs_filter = 'Libs',
+			file_list = 'oculus.waf_files',
+			exclude_from_static_code_analyzer = True,
+
+			win_cxxflags = [ '/EHsc', '/W0', '/Wv:18' ],
+			win_cflags = [ '/W0', '/Wv:18' ],
+			win_includes    = [
+				Path('Code/SDKs/OculusSDK/LibOVRKernel/Src'),
+				Path('Code/SDKs/OculusSDK/LibOVR/Include'),
+				Path('Code/SDKs/OculusSDK/Logging/Include'),
+				],
+
+			module_provides = dict(
+				includes = [ Path('Code/SDKs/OculusSDK/LibOVR/Include'), ],
+				defines = [ 'INCLUDE_OCULUS_SDK' ],
+			),
+		)
+	else:
+		bld.cry_warning('Oculus not built. Requires MSVC 14.0 or newer. Current installed: %s' % (bld.env['MSVC_VERSION']))
+		

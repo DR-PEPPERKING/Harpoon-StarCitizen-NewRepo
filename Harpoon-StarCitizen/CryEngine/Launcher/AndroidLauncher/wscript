@@ -1,0 +1,34 @@
+# Copyright 2001-2019 Crytek GmbH / Crytek Group. All rights reserved.
+
+def build(bld):	
+	# Compile Java files /d/NVPACK/jdk1.7.0_45/bin/javac.exe -d build -classpath /d/NVPACK/android-sdk-windows/platforms/android-19/android.jar ../Code/Launcher/AndroidLauncher/SDLActivity.java ../Code/Launcher/AndroidLauncher/CryEngineActivity.java -Xlint:deprecation
+	# Pack them into a .jar jar cvf ../libs/AndroidLauncher.jar *
+	# Run Ant (perhaps we can get around this step)  cp libAndroidLauncher.so lib/armeabi-v7a/libAndroidLauncher.so && ant debug
+	# External Build System (? -> .apk) must be the configuration type
+
+	common_linkerflags = ["-Wl,--no-whole-archive",
+												'-Wl,--no-undefined',
+												'-Wl,-z,relro',
+												'-Wl,-z,now',
+												'-Wl,-z,noexecstack',
+												'-shared',
+												'-Wl,-soname,"libAndroidLauncher.so"' ] 
+
+	tsk = bld.CryEngineModule(
+		target      = 'AndroidLauncher',
+		vs_filter   = 'Launcher',		
+		android_file_list   = 'androidlauncher.waf_files',
+		is_package_host     = True,
+		
+		features		=	['android_launcher'],
+		cflags			=	[ '-g2', '-gdwarf-2', '-ffunction-sections', '-funwind-tables',   '-fno-omit-frame-pointer', '-fno-strict-aliasing' ],
+		cxxflags		=	[ '-g2', '-gdwarf-2',  '-ffunction-sections', '-funwind-tables', '-fno-omit-frame-pointer', '-fno-strict-aliasing'],
+		defines			=	[ 'ANDROID_NDK', 'ANDROID', 'DISABLE_IMPORTGL', ' __ANDROID__', '__ARM_EABI__', '__ARM_ARCH_5__', '__ARM_ARCH_5T__', '__ARM_ARCH_5E__', '__ARM_ARCH_5TE__', '__ARM_ARCH_7__', '__ARM_ARCH_7A__' ],
+		lib				=	[ 'OpenSLES' ],
+		module_extensions  = ['sdl2', 'scaleform'],
+
+		debug_linkflags        = common_linkerflags,
+		profile_linkflags      = common_linkerflags,
+		performance_linkflags  = common_linkerflags,
+		release_linkflags      = common_linkerflags,
+	)

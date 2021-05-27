@@ -1,0 +1,11 @@
+# Copyright 2001-2019 Crytek GmbH / Crytek Group. All rights reserved.
+
+def build(bld):	
+
+	bld.CryEditorPlugin(
+		target          = 'EditorCryAudioImplWwise',
+		vs_filter       = 'Sandbox/Plugins/EditorAudioControlsEditor/Impl',
+		file_list       = 'editorwwise.waf_files',
+		includes        = ['../common/', Path('Code/CryEngine/CryAudioSystem/implementations')],
+		output_sub_folder = "Audio"
+	)

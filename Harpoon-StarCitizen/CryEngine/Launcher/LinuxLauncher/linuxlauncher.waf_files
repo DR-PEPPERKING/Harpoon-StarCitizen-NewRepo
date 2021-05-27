@@ -1,0 +1,12 @@
+{
+	"NoUberFile": 
+	{
+		"Source Files":
+		[
+			"StdAfx.h",
+			"Assert.cpp",
+			"assert.h",
+			"Main.cpp"
+		]
+	}
+}
