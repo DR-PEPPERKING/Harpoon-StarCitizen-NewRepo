@@ -147,21 +147,10 @@ namespace MemoryTools {
 GameMemory::GameMemory()
 {
 	m_pAmmoUpdateInstruction = (std::uintptr_t)MemoryTools::FindPattern("StarCitizen.exe", "89 BE ? ? ? ? E8 ? ? ? ? 48 8D 48 38 E8 ? ? ? ? 41 BE ? ? ? ? 84 C0", "UpdateAmmoInstruction");
-	//m_pCXConsolePrintf = (std::uintptr_t)MemoryTools::relativeToAbsolute<std::uintptr_t>((char*)MemoryTools::FindPattern("StarCitizen.exe", "E8 ? ? ? ? 49 2B DF", "CXConsole::Printf") + int(1));
-	
-	m_pCXConsolePrintf = (std::uintptr_t)MemoryTools::relativeToAbsolute<std::uintptr_t>((char*)MemoryTools::FindPattern("StarCitizen.exe", "E8 ? ? ? ? B3 07 E9 ? ? ? ? 48 8B", "CXConsole::Printf") + int(1));
-	
-	
+	m_pCXConsolePrintf = (std::uintptr_t)MemoryTools::relativeToAbsolute<std::uintptr_t>((char*)MemoryTools::FindPattern("StarCitizen.exe", "E8 ? ? ? ? B3 07 E9 ? ? ? ? 48 8B", "CXConsole::Printf") + int(1));	
 	m_pLoadConfigVar = (std::uintptr_t)MemoryTools::relativeToAbsolute<std::uintptr_t>((char*)MemoryTools::FindPattern("StarCitizen.exe", "E8 ? ? ? ? EB 59 48 8B D6", "InitConvars") + int(1));
 	m_pCXConsoleExecuteCommand = (std::uintptr_t)MemoryTools::relativeToAbsolute<std::uintptr_t>((char*)MemoryTools::FindPattern("StarCitizen.exe", "E8 ? ? ? ? E9 ? ? ? ? 49 8B BE ? ? ? ? 48 8B 75 E7", "CXConsole::ExecuteCommand") + int(1));
 	m_pLoadAndInitCryModule = (std::uintptr_t)MemoryTools::relativeToAbsolute<std::uintptr_t>((char*)MemoryTools::FindPattern("StarCitizen.exe", "E8 ? ? ? ? 49 89 46 40 48 85 C0", "LoadAndInitCryModule") + int(1));
 	m_pCheckCvarWhileList = (std::uintptr_t)MemoryTools::relativeToAbsolute<std::uintptr_t>((char*)MemoryTools::FindPattern("StarCitizen.exe", "E8 ? ? ? ? 0F B6 F0 84 C0 75 72", "CXConsole::CheckCvarWhiteList") + int(1));
 	m_pCarryWeightUpdate = (std::uintptr_t)((char*)MemoryTools::FindPattern("StarCitizen.exe", "EB 04 4C 8B 75 67 48 85 FF 74 2F 8B C6", "Carry Weight Update") - int(9));
-
-
-
-
-
-
-	// 
 }

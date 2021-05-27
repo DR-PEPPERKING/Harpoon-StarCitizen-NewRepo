@@ -1,9 +1,0 @@
-{
-	"NoUberFile": 
-	{
-		"Root":
-		[
-			"../../SDKs/hdf5/src/h5detect.c"
-		]
-	}
-}

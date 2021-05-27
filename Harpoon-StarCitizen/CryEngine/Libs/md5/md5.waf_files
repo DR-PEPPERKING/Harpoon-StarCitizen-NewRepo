@@ -1,8 +1,0 @@
-{
-    "NoUberFile": {
-        "Root": [
-            "../../SDKs/md5/md5.c",
-            "../../SDKs/md5/md5.h"
-        ]
-    }
-}

@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/icons">
-        <file alias="p4.ico">res/p4.ico</file>
-    </qresource>
-</RCC>
-

@@ -1,1 +1,0 @@
-dir Cache /a:-d /s /b >dir.txt

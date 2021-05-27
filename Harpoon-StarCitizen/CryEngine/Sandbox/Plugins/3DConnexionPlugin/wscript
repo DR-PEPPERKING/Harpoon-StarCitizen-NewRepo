@@ -1,9 +1,0 @@
-# Copyright 2001-2019 Crytek GmbH / Crytek Group. All rights reserved.
-def build(bld):	
-	
-	bld.CryEditorPlugin(
-		target      = '3DConnexionPlugin',
-		vs_filter	= 'Sandbox/Plugins',
-		file_list   = '3dconnexion.waf_files',
-		pch			= 'StdAfx.cpp'
-	)

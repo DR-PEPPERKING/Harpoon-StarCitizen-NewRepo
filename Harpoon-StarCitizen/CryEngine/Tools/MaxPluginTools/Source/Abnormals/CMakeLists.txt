@@ -1,1 +1,0 @@
-MAX_PLUGIN("abNormals" "MaxPluginUtilities")

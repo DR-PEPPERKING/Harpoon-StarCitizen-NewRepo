@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/icons">
-        <file alias="audio/impl/sdlmixer/event.ico">Icons/event.ico</file>
-    </qresource>
-</RCC>
-

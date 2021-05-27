@@ -1,1 +1,0 @@
-#include "tiffconf.vc.h"

@@ -1,1 +1,0 @@
-MAX_PLUGIN("SuperArray" "MaxPluginUtilities")

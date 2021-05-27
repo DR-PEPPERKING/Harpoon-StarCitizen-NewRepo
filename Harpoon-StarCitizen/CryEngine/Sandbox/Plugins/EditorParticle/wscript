@@ -1,9 +1,0 @@
-# Copyright 2001-2019 Crytek GmbH / Crytek Group. All rights reserved.
-def build(bld):
-	bld.CryEditorPlugin(
-		target          = 'EditorParticle',
-		vs_filter       = 'Sandbox/Plugins',
-		file_list       = 'editorparticle.waf_files',
-		pch             = 'StdAfx.cpp',
-		win_module_extensions = ['toolkit_pro']
-	)

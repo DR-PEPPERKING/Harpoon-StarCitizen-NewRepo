@@ -122,6 +122,9 @@ static constexpr auto _relativeToAbsolute(uintptr_t address) noexcept
 {
 	return (T)(address + 4 + *reinterpret_cast<std::int32_t*>(address));
 }
+
+class CryNetwork;
+
 void Initalize(HMODULE hModule)
 {
 	printf("Initializing.\n");
@@ -168,6 +171,9 @@ void Initalize(HMODULE hModule)
 
 
 	printf("Loading Modules...");
+	
+	
+
 
 
 	printf("Ok\n");

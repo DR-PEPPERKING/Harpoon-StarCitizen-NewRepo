@@ -1,7 +1,0 @@
-{
-    "CrySystem_uber_6.cpp": {
-        "Threading": [
-            "CryThreadUtil_win32.h"
-        ]
-    }
-}
