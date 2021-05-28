@@ -153,4 +153,10 @@ GameMemory::GameMemory()
 	m_pLoadAndInitCryModule = (std::uintptr_t)MemoryTools::relativeToAbsolute<std::uintptr_t>((char*)MemoryTools::FindPattern("StarCitizen.exe", "E8 ? ? ? ? 49 89 46 40 48 85 C0", "LoadAndInitCryModule") + int(1));
 	m_pCheckCvarWhileList = (std::uintptr_t)MemoryTools::relativeToAbsolute<std::uintptr_t>((char*)MemoryTools::FindPattern("StarCitizen.exe", "E8 ? ? ? ? 0F B6 F0 84 C0 75 72", "CXConsole::CheckCvarWhiteList") + int(1));
 	m_pCarryWeightUpdate = (std::uintptr_t)((char*)MemoryTools::FindPattern("StarCitizen.exe", "EB 04 4C 8B 75 67 48 85 FF 74 2F 8B C6", "Carry Weight Update") - int(9));
+	m_pLoadCryModule = (std::uintptr_t)MemoryTools::relativeToAbsolute<std::uintptr_t>((char*)MemoryTools::FindPattern("StarCitizen.exe", "E8 ? ? ? ? FF D0 8B 15 ? ? ? ?", "LoadCryModule") + int(1));
+	m_pMalloc = (StarEngineMallocFunc_t)MemoryTools::relativeToAbsolute<std::uintptr_t>((char*)MemoryTools::FindPattern("StarCitizen.exe", "E8 ? ? ? ? 8B 4D 9B", "StarEngineMalloc") + int(1));
+	m_pFree = (StarEngineFreeFunc_t)MemoryTools::relativeToAbsolute<std::uintptr_t>((char*)MemoryTools::FindPattern("StarCitizen.exe", "E8 ? ? ? ? 33 C0 48 8B 5C 24 30 48 83 C4 20", "StarEngineFree") + int(1));
+
+
+
 }

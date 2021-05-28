@@ -1,6 +1,10 @@
 #pragma once
 #include "CryEngineSDK/BaseIncludes.h"
 
+
+
+typedef void* (__fastcall* StarEngineMallocFunc_t)(__int64 nDataSize);
+typedef void* (__fastcall* StarEngineFreeFunc_t)(void* pData, __int64 nDataSize);
 namespace MemoryTools
 {
 	void* FindPattern(const char* moduleName, const char* pattern, const char* szName = nullptr);
@@ -26,9 +30,6 @@ class GameMemory
 {
 public:
 	GameMemory();
-
-
-
 	std::uintptr_t m_pAmmoUpdateInstruction = 0;
 	std::uintptr_t m_pCXConsolePrintf = 0;
 	std::uintptr_t m_pLoadConfigVar = 0;
@@ -36,6 +37,9 @@ public:
 	std::uintptr_t m_pLoadAndInitCryModule = 0;
 	std::uintptr_t m_pCheckCvarWhileList = 0;
 	std::uintptr_t m_pCarryWeightUpdate = 0;
+	std::uintptr_t m_pLoadCryModule = 0;
+	StarEngineMallocFunc_t m_pMalloc = NULL;
+	StarEngineFreeFunc_t m_pFree = NULL;
 private:
 };
 

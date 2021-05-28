@@ -31,6 +31,9 @@
     <Filter Include="CryEngineSDK\CryNetwork.h">
       <UniqueIdentifier>{58f2ef71-9b5a-4ba8-a63a-d23662f19cbf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Hooks">
+      <UniqueIdentifier>{b371239f-ed2c-4e27-91dd-d9c9d711942e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -84,6 +87,9 @@
     <ClInclude Include="CryEngineSDK\CryNetwork\CryNetwork.h">
       <Filter>CryEngineSDK\CryNetwork.h</Filter>
     </ClInclude>
+    <ClInclude Include="Hooks\Dx11Hook.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -109,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="MinHook\hde\hde64.c">
       <Filter>MinHook\hde</Filter>
+    </ClCompile>
+    <ClCompile Include="Hooks\Dx11Hook.cpp">
+      <Filter>Hooks</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

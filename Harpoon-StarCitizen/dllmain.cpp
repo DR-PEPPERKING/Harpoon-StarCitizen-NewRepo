@@ -102,9 +102,98 @@ LPVOID oLoadAndInitCryModule = 0;
 typedef __int64(__fastcall* LoadAndInitCryModuleFunc_t)(const char* szFunctionName, const char* szModuleName, __int64 unkn, __int64 unkn2);
 __int64 __fastcall hk_LoadAndInitCryModule(const char* szModuleName, const char* szFunctionName, __int64 unkn, __int64 unkn2)
 {
-	printf("Module %s is being loaded with the Init function %s\n", szModuleName, szFunctionName);	
+	//printf("Module %s is being loaded with the Init function %s, %x | %x\n", szModuleName, szFunctionName, unkn, unkn2);	
 	return ((LoadAndInitCryModuleFunc_t)oLoadAndInitCryModule)(szModuleName, szFunctionName, unkn, unkn2);
 }
+
+
+LPVOID oLoadCryModuleFunc = NULL; // direct reference: [actual address in first opcode] E8 ? ? ? ? FF D0 8B 15 ? ? ? ? 
+typedef FARPROC(__fastcall* LoadCryModuleFunc_t)(const char* szModule, const char* szInitFuncName);
+FARPROC __fastcall hk_LoadCryModuleFunc(const char* szModule, const char* szInitFuncName)
+{
+#if 1
+#if 0
+	if (szModule)
+	{
+		HMODULE hModule = GetModuleHandleA(szModule);
+		if (!hModule)
+			hModule = GetModuleHandleA("StarCitizen.exe");
+
+		if (hModule)
+		{
+			char path[MAX_PATH];
+			if (GetModuleFileNameA(hModule, path, sizeof(path)) == 0)
+			{
+				int ret = GetLastError();
+				printf("GetModuleFileName failed, error = %d\n", ret);
+				// Return or however you want to handle an error.
+			}
+			else {
+				printf(" -- DLL Located At %s", path);
+			}
+		}
+		else
+		{
+			printf("No Module!");
+		}
+	}
+#endif
+
+	FARPROC ret = ((LoadCryModuleFunc_t)oLoadCryModuleFunc)(szModule, szInitFuncName);	
+#if 1
+	if (ret && szModule && szInitFuncName && !strstr(szInitFuncName, "InitializeThreadInfoBlock"))
+	{
+		printf(" [hk_LoadCryModuleFunc] %s is requested from %s - ret %x\n", szInitFuncName, szModule, ret);
+		HMODULE hModule = GetModuleHandleA(szModule);
+		if (hModule)
+		{
+			if ((((PIMAGE_DOS_HEADER)hModule)->e_magic == IMAGE_DOS_SIGNATURE))
+			{
+				PIMAGE_NT_HEADERS header = (PIMAGE_NT_HEADERS)((BYTE*)hModule + ((PIMAGE_DOS_HEADER)hModule)->e_lfanew);
+				if (!(header->Signature == IMAGE_NT_SIGNATURE))
+					return ret;
+
+				if(!(header->OptionalHeader.NumberOfRvaAndSizes > 0))
+					return ret;
+
+				PIMAGE_EXPORT_DIRECTORY exports = (PIMAGE_EXPORT_DIRECTORY)((BYTE*)hModule + header->
+					OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress);
+
+				if (exports->AddressOfNames == 0)
+					return ret;
+
+				printf("--------- : Module Has %d Exports\n", exports->NumberOfNames);
+				DWORD  NumbOfNames = exports->NumberOfNames;
+
+				DWORD *AddrOfNames = (DWORD*)((LPBYTE)hModule + exports->AddressOfNames);
+
+				for (int i = 0; i < NumbOfNames; i++)
+				{
+					printf("-------- - : %s\n", (*AddrOfNames + (LPBYTE)hModule));
+
+					AddrOfNames = AddrOfNames + 1;
+				}
+			}
+		}
+	}
+#endif
+	return ret;
+#endif
+#if 0
+	HMODULE hModuleHandle = GetModuleHandleA("StarCitizen.exe");
+	FARPROC result = GetProcAddress(hModuleHandle, szInitFuncName);
+	if (!result)
+	{
+		hModuleHandle = LoadLibraryA(szModule);
+		if (hModuleHandle)
+			result = GetProcAddress(hModuleHandle, szInitFuncName);
+	}
+	return result;
+#endif
+}
+
+
+
 
 LPVOID oCXConsoleCheckCvarWhiteListStatus = NULL;
 //E8 ? ? ? ? 0F B6 F0 84 C0 75 72
@@ -125,6 +214,8 @@ static constexpr auto _relativeToAbsolute(uintptr_t address) noexcept
 
 class CryNetwork;
 
+
+typedef __int64* (__fastcall* InitFunctionFunc_t)(__int64);
 void Initalize(HMODULE hModule)
 {
 	printf("Initializing.\n");
@@ -164,29 +255,33 @@ void Initalize(HMODULE hModule)
 
 	printf("Ok\n");
 
-
-	//
-
-
-
-
-	printf("Loading Modules...");
-	
-	
-
-
-
-	printf("Ok\n");
-
 	printf("Hooking Functions...");
 	MH_Initialize();
 	MH_CreateHook((LPVOID)g_pMemory->m_pLoadConfigVar, hk_CXConsole_LoadConfigVar, &oCXConsoleLoadConfigVar);
 	MH_CreateHook((LPVOID)g_pMemory->m_pCXConsoleExecuteCommand, hk_CXConsole_ExecuteCommand, &oCXConsoleExecuteCommand);
+	MH_CreateHook((LPVOID)g_pMemory->m_pLoadCryModule, hk_LoadCryModuleFunc, &oLoadCryModuleFunc);
 	MH_CreateHook((LPVOID)g_pMemory->m_pLoadAndInitCryModule, hk_LoadAndInitCryModule, &oLoadAndInitCryModule);
+
 	MH_CreateHook((LPVOID)g_pMemory->m_pCheckCvarWhileList, hk_CXConsole_CheckCvarWhiteListStatus, &oCXConsoleCheckCvarWhiteListStatus);
 
 	MH_EnableHook(MH_ALL_HOOKS);
+
 	printf("Ok\n");
+
+	printf("Loading Modules...");
+
+#if 1
+	//HANDLE pInitFunction = hk_LoadCryModuleFunc("CryEntitySystem.dll", "InitializeModule_CryEntitySystem");
+	//if (pInitFunction)
+	//{
+		//printf("Loaded CryEntitySystem.dll\n");
+	//}
+#endif
+
+
+	printf("Ok\n");
+
+
 }
 
 
