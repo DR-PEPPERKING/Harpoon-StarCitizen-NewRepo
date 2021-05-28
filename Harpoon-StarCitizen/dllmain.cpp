@@ -194,6 +194,14 @@ FARPROC __fastcall hk_LoadCryModuleFunc(const char* szModule, const char* szInit
 
 
 
+LPVOID oCSCPlayerGetNetvar = NULL;
+typedef void** (__fastcall* CSCPlayerGetNetvarFunc_t)(__int64*, const char*);
+void** __fastcall hk_CSCPlayer_GetNetvar(__int64* _this, const char* szNetVarName)
+{
+	void** ret = ((CSCPlayerGetNetvarFunc_t)oCSCPlayerGetNetvar)(_this, szNetVarName);
+	CON(" [CSCPlayer::GetNetvar] Requesting Netvar %s - ret %x\n", szNetVarName, ret);
+	return ret;
+}
 
 LPVOID oCXConsoleCheckCvarWhiteListStatus = NULL;
 //E8 ? ? ? ? 0F B6 F0 84 C0 75 72
@@ -219,6 +227,11 @@ typedef __int64* (__fastcall* InitFunctionFunc_t)(__int64);
 void Initalize(HMODULE hModule)
 {
 	printf("Initializing.\n");
+
+	printf("Finding Patterns...");
+	g_pMemory = new GameMemory();
+	printf("Ok\n");
+
 	printf("Running Byte Patches.\n");
 	WriteInfiniteAmmo();
 	WriteNoCarryWeight();
@@ -261,8 +274,8 @@ void Initalize(HMODULE hModule)
 	MH_CreateHook((LPVOID)g_pMemory->m_pCXConsoleExecuteCommand, hk_CXConsole_ExecuteCommand, &oCXConsoleExecuteCommand);
 	MH_CreateHook((LPVOID)g_pMemory->m_pLoadCryModule, hk_LoadCryModuleFunc, &oLoadCryModuleFunc);
 	MH_CreateHook((LPVOID)g_pMemory->m_pLoadAndInitCryModule, hk_LoadAndInitCryModule, &oLoadAndInitCryModule);
-
 	MH_CreateHook((LPVOID)g_pMemory->m_pCheckCvarWhileList, hk_CXConsole_CheckCvarWhiteListStatus, &oCXConsoleCheckCvarWhiteListStatus);
+	MH_CreateHook((LPVOID)g_pMemory->m_pCSCPlayerGetNetvar, hk_CSCPlayer_GetNetvar, &oCSCPlayerGetNetvar);
 
 	MH_EnableHook(MH_ALL_HOOKS);
 
@@ -298,7 +311,6 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		freopen_s(&fDummy, "CONOUT$", "w", stdout);
 		freopen_s(&fDummy, "CONOUT$", "w", stderr);
 		freopen_s(&fDummy, "CONIN$", "r", stdin);
-		g_pMemory = new GameMemory();
 		Initalize(hModule);
 		printf("Harpoon StarCitizen Loaded!\n");
     case DLL_THREAD_ATTACH:

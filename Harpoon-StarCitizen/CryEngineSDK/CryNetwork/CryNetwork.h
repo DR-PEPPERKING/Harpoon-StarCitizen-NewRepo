@@ -18,6 +18,35 @@
 #include "../BaseIncludes.h"
 
 
+
+
+class CBitStream // "Read operation failed in CBitStream for an unknown reason"
+{
+
+
+
+    struct Data_s
+    {
+        void* m_pData = NULL;
+        __int64 m_nBitPos = NULL;
+
+    };
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #define NUM_ASPECTS                         32              // Number of GameObject aspects supported.
 #define MAXIMUM_NUMBER_OF_CONNECTIONS       64              // Maximum number of connections supported.
 

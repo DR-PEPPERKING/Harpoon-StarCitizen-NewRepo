@@ -38,6 +38,7 @@ public:
 	std::uintptr_t m_pCheckCvarWhileList = 0;
 	std::uintptr_t m_pCarryWeightUpdate = 0;
 	std::uintptr_t m_pLoadCryModule = 0;
+	std::uintptr_t m_pCSCPlayerGetNetvar = 0;
 	StarEngineMallocFunc_t m_pMalloc = NULL;
 	StarEngineFreeFunc_t m_pFree = NULL;
 private:

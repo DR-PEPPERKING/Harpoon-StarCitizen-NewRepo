@@ -156,7 +156,5 @@ GameMemory::GameMemory()
 	m_pLoadCryModule = (std::uintptr_t)MemoryTools::relativeToAbsolute<std::uintptr_t>((char*)MemoryTools::FindPattern("StarCitizen.exe", "E8 ? ? ? ? FF D0 8B 15 ? ? ? ?", "LoadCryModule") + int(1));
 	m_pMalloc = (StarEngineMallocFunc_t)MemoryTools::relativeToAbsolute<std::uintptr_t>((char*)MemoryTools::FindPattern("StarCitizen.exe", "E8 ? ? ? ? 8B 4D 9B", "StarEngineMalloc") + int(1));
 	m_pFree = (StarEngineFreeFunc_t)MemoryTools::relativeToAbsolute<std::uintptr_t>((char*)MemoryTools::FindPattern("StarCitizen.exe", "E8 ? ? ? ? 33 C0 48 8B 5C 24 30 48 83 C4 20", "StarEngineFree") + int(1));
-
-
-
+	m_pCSCPlayerGetNetvar = (std::uintptr_t)MemoryTools::relativeToAbsolute<std::uintptr_t>((char*)MemoryTools::FindPattern("StarCitizen.exe", "E8 ? ? ? ? 48 8B D0 48 8D 4D F7 48 8B F8 E8 ? ? ? ? B8 01 00 00 00", "CSCPlayer::GetNetvar") + int(1));
 }

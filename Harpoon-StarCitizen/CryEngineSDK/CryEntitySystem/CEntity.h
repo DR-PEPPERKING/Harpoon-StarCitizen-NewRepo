@@ -46,7 +46,26 @@ private:
 };
 
 
+
+class ISCPlayer
+{
+public:
+
+private:
+};
+
+class CSCPlayer : ISCPlayer
+{
+public:
+
+
+private:
+};
+
+
 class CryEntitySystem
 {
 
 };
+
+
